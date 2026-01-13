@@ -20,19 +20,19 @@
 <table id = "content" width="100%" height="92%">
 <tbody>
     <tr>
-      <td id="rgbs">РГБС</td>
-      <td id="voi">ВОИ</td>
-      <td id="rooi">РООИ Перспектива</td>
+      <td id="rgbs" role="button" tabindex="0" aria-label="Российская государственная библиотека для слепых" onmouseenter="speakText('Российская государственная библиотека для слепых')" onfocus="speakText('Российская государственная библиотека для слепых')" onclick="speakAndNavigateExternal('Переход на сайт Российской государственной библиотеки для слепых', 'http://rgbs.ru/')">РГБС</td>
+      <td id="voi" role="button" tabindex="0" aria-label="Всероссийское общество инвалидов" onmouseenter="speakText('Всероссийское общество инвалидов')" onfocus="speakText('Всероссийское общество инвалидов')" onclick="speakAndNavigateExternal('Переход на сайт Всероссийского общества инвалидов', 'http://voi.ru/')">ВОИ</td>
+      <td id="rooi" role="button" tabindex="0" aria-label="РООИ Перспектива" onmouseenter="speakText('РООИ Перспектива')" onfocus="speakText('РООИ Перспектива')" onclick="speakAndNavigateExternal('Переход на сайт РООИ Перспектива', 'https://perspektiva-inva.ru/')">РООИ Перспектива</td>
     </tr>
     <tr>
-      <td id="trud">Трудоустройство</td>
-      <td id="dis">Дислайф</td>
-      <td id="ds">Доступная среда</td>
+      <td id="trud" role="button" tabindex="0" aria-label="Трудоустройство" onmouseenter="speakText('Трудоустройство')" onfocus="speakText('Трудоустройство')" onclick="speakAndNavigateExternal('Переход на сайт трудоустройства', 'https://perspektiva-inva.ru/jobs/vacancy/')">Трудоустройство</td>
+      <td id="dis" role="button" tabindex="0" aria-label="Дислайф" onmouseenter="speakText('Дислайф')" onfocus="speakText('Дислайф')" onclick="speakAndNavigateExternal('Переход на сайт Дислайф', 'http://dislife.ru/')">Дислайф</td>
+      <td id="ds" role="button" tabindex="0" aria-label="Доступная среда" onmouseenter="speakText('Доступная среда')" onfocus="speakText('Доступная среда')" onclick="speakAndNavigateExternal('Переход на сайт Доступная среда', 'https://www.smartaids.ru/')">Доступная среда</td>
     </tr>
     <tr>
-      <td id="disab">Дисабилити</td>
-      <td id="rea">Реакомп</td>
-      <td id="back">На главную</td>
+      <td id="disab" role="button" tabindex="0" aria-label="Дисабилити" onmouseenter="speakText('Дисабилити')" onfocus="speakText('Дисабилити')" onclick="speakAndNavigateExternal('Переход на сайт Дисабилити', 'http://www.disability.ru/')">Дисабилити</td>
+      <td id="rea" role="button" tabindex="0" aria-label="Реакомп" onmouseenter="speakText('Реакомп')" onfocus="speakText('Реакомп')" onclick="speakAndNavigateExternal('Переход на сайт Реакомп', 'http://www.rehacomp.ru/')">Реакомп</td>
+      <td id="back" role="button" tabindex="0" aria-label="На главную" onmouseenter="speakText('На главную')" onfocus="speakText('На главную')" onclick="speakAndNavigate('Возврат на главную страницу', '/www')">На главную</td>
     </tr>
   </tbody>
 </table>
@@ -81,54 +81,65 @@
 </script>
 
 <script>
-var html = document.documentElement;
-rgbs.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "http://rgbs.ru/";
-};
+// Функции для озвучивания и навигации
+var synth = window.speechSynthesis;
 
-voi.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "http://voi.ru/";
-};
+function speakText(text) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  synth.speak(utterance);
+}
 
-rooi.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://perspektiva-inva.ru/";
-};
+function speakAndNavigate(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      document.location.href = url;
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-trud.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://perspektiva-inva.ru/jobs/vacancy/";
-};
+function speakAndNavigateExternal(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      window.open(url, '_blank');
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-dis.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "http://dislife.ru/";
-};
-
-ds.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://www.smartaids.ru/";
-};
-
-disab.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "http://www.disability.ru/";
-};
-
-rea.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "http://www.rehacomp.ru/";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-back.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "/www";
-};
+// Озвучивание при загрузке страницы
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    speakText('Раздел тематические сайты. Выберите нужный сайт.');
+  }, 500);
+});
 </script>
 
 </body>

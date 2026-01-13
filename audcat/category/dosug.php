@@ -20,19 +20,19 @@
 <table id = "content" width="100%" height="92%">
 <tbody>
     <tr>
-      <td id="anek">Анекдоты</td>
-      <td id="weather">Погода</td>
-      <td id="news">Новости</td>
+      <td id="anek" role="button" tabindex="0" aria-label="Анекдоты" onmouseenter="speakText('Анекдоты')" onfocus="speakText('Анекдоты')" onclick="speakAndNavigateExternal('Переход на сайт анекдотов', 'https://www.anekdot.ru/last/anekdot/')">Анекдоты</td>
+      <td id="weather" role="button" tabindex="0" aria-label="Погода" onmouseenter="speakText('Погода')" onfocus="speakText('Погода')" onclick="speakAndNavigateExternal('Переход на сайт погоды', 'https://yandex.ru/pogoda/moscow/?from=home')">Погода</td>
+      <td id="news" role="button" tabindex="0" aria-label="Новости" onmouseenter="speakText('Новости')" onfocus="speakText('Новости')" onclick="speakAndNavigateExternal('Переход на сайт новостей', 'https://news.google.com/')">Новости</td>
     </tr>
     <tr>
-      <td id="youtube">YouTube</td>
-      <td id="translate">Переводчик</td>
-      <td id="avito">Avito</td>
+      <td id="youtube" role="button" tabindex="0" aria-label="YouTube" onmouseenter="speakText('YouTube')" onfocus="speakText('YouTube')" onclick="speakAndNavigateExternal('Переход на сайт YouTube', 'https://www.youtube.com/')">YouTube</td>
+      <td id="translate" role="button" tabindex="0" aria-label="Переводчик" onmouseenter="speakText('Переводчик')" onfocus="speakText('Переводчик')" onclick="speakAndNavigateExternal('Переход на сайт переводчика', 'https://translate.google.ru/')">Переводчик</td>
+      <td id="avito" role="button" tabindex="0" aria-label="Avito" onmouseenter="speakText('Avito')" onfocus="speakText('Avito')" onclick="speakAndNavigateExternal('Переход на сайт Avito', 'https://www.avito.ru/')">Avito</td>
     </tr>
     <tr>
-      <td id="wiki">Википедия</td>
-      <td id="music">Музыкальная студия</td>
-      <td id="back">На главную</td>
+      <td id="wiki" role="button" tabindex="0" aria-label="Википедия" onmouseenter="speakText('Википедия')" onfocus="speakText('Википедия')" onclick="speakAndNavigateExternal('Переход на сайт Википедия', 'https://ru.wikipedia.org')">Википедия</td>
+      <td id="music" role="button" tabindex="0" aria-label="Музыкальная студия" onmouseenter="speakText('Музыкальная студия')" onfocus="speakText('Музыкальная студия')" onclick="speakAndNavigateExternal('Переход на сайт музыкальной студии', 'https://blues-mcdc.ru/')">Музыкальная студия</td>
+      <td id="back" role="button" tabindex="0" aria-label="На главную" onmouseenter="speakText('На главную')" onfocus="speakText('На главную')" onclick="speakAndNavigate('Возврат на главную страницу', '/www')">На главную</td>
     </tr>
   </tbody>
 </table>
@@ -81,54 +81,65 @@
 </script>
 
 <script>
-var html = document.documentElement;
-anek.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://www.anekdot.ru/last/anekdot/";
-};
+// Функции для озвучивания и навигации
+var synth = window.speechSynthesis;
 
-weather.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://yandex.ru/pogoda/moscow/?from=home";
-};
+function speakText(text) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  synth.speak(utterance);
+}
 
-news.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://news.google.com/";
-};
+function speakAndNavigate(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      document.location.href = url;
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-youtube.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://www.youtube.com/";
-};
+function speakAndNavigateExternal(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      window.open(url, '_blank');
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-translate.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://translate.google.ru/";
-};
-
-avito.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://www.avito.ru/";
-};
-
-wiki.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://ru.wikipedia.org";
-};
-
-music.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://blues-mcdc.ru/";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-back.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "/www";
-};
+// Озвучивание при загрузке страницы
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    speakText('Раздел досуг. Выберите нужный сайт.');
+  }, 500);
+});
 </script>
 
 </body>

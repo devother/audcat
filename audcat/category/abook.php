@@ -20,19 +20,19 @@
 <table id = "content" width="100%" height="92%">
 <tbody>
     <tr>
-      <td id="fant">Фантастика</td>
-      <td id="clas">Классика</td>
-      <td id="advent">Приключения</td>
+      <td id="fant" role="button" tabindex="0" aria-label="Фантастика" onmouseenter="speakText('Фантастика')" onfocus="speakText('Фантастика')" onclick="speakAndNavigate('Переход в раздел фантастика', '../page/book/fantasy.php')">Фантастика</td>
+      <td id="clas" role="button" tabindex="0" aria-label="Классика" onmouseenter="speakText('Классика')" onfocus="speakText('Классика')" onclick="speakAndNavigate('Переход в раздел классика', '../page/book/classic.php')">Классика</td>
+      <td id="advent" role="button" tabindex="0" aria-label="Приключения" onmouseenter="speakText('Приключения')" onfocus="speakText('Приключения')" onclick="speakAndNavigate('Переход в раздел приключения', '../page/book/advent.php')">Приключения</td>
     </tr>
     <tr>
-      <td id="poe">Поэзия</td>
-      <td id="det">Детектив</td>
-      <td id="rom">Роман</td>
+      <td id="poe" role="button" tabindex="0" aria-label="Поэзия" onmouseenter="speakText('Поэзия')" onfocus="speakText('Поэзия')" onclick="speakAndNavigate('Переход в раздел поэзия', '../page/book/poet.php')">Поэзия</td>
+      <td id="det" role="button" tabindex="0" aria-label="Детектив" onmouseenter="speakText('Детектив')" onfocus="speakText('Детектив')" onclick="speakAndNavigate('Переход в раздел детектив', '../page/book/detec.php')">Детектив</td>
+      <td id="rom" role="button" tabindex="0" aria-label="Роман" onmouseenter="speakText('Роман')" onfocus="speakText('Роман')" onclick="speakAndNavigate('Переход в раздел роман', '../page/book/roman.php')">Роман</td>
     </tr>
     <tr>
-      <td id="humor">Юмор, сатира</td>
-      <td id="ist">История</td>
-      <td id="back">На главную</td>
+      <td id="humor" role="button" tabindex="0" aria-label="Юмор, сатира" onmouseenter="speakText('Юмор, сатира')" onfocus="speakText('Юмор, сатира')" onclick="speakAndNavigate('Переход в раздел юмор, сатира', '../page/book/humor.php')">Юмор, сатира</td>
+      <td id="ist" role="button" tabindex="0" aria-label="История" onmouseenter="speakText('История')" onfocus="speakText('История')" onclick="speakAndNavigate('Переход в раздел история', '../page/book/history.php')">История</td>
+      <td id="back" role="button" tabindex="0" aria-label="На главную" onmouseenter="speakText('На главную')" onfocus="speakText('На главную')" onclick="speakAndNavigate('Возврат на главную страницу', '/www')">На главную</td>
     </tr>
   </tbody>
 </table>
@@ -81,11 +81,46 @@
 </script>
 
 <script>
-var html = document.documentElement;
-back.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "/www";
-};
+// Функции для озвучивания и навигации
+var synth = window.speechSynthesis;
+
+function speakText(text) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  synth.speak(utterance);
+}
+
+function speakAndNavigate(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      document.location.href = url;
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
+
+// Озвучивание при загрузке страницы
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    speakText('Раздел аудиокниги. Выберите жанр.');
+  }, 500);
+});
 </script>
 
 </body>

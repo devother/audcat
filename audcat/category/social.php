@@ -20,14 +20,14 @@
 <table id = "content" width="100%" height="92%">
 <tbody>
     <tr>
-      <td id="vk">ВКонтакте</td>
-      <td id="ok">Одноклассники</td>
-      <td id="face">Facebook</td>
+      <td id="vk" role="button" tabindex="0" aria-label="ВКонтакте" onmouseenter="speakText('ВКонтакте')" onfocus="speakText('ВКонтакте')" onclick="speakAndNavigateExternal('Переход на сайт ВКонтакте', 'https://vk.com/')">ВКонтакте</td>
+      <td id="ok" role="button" tabindex="0" aria-label="Одноклассники" onmouseenter="speakText('Одноклассники')" onfocus="speakText('Одноклассники')" onclick="speakAndNavigateExternal('Переход на сайт Одноклассники', 'https://ok.ru/')">Одноклассники</td>
+      <td id="face" role="button" tabindex="0" aria-label="Facebook" onmouseenter="speakText('Facebook')" onfocus="speakText('Facebook')" onclick="speakAndNavigateExternal('Переход на сайт Facebook', 'https://facebook.com/')">Facebook</td>
     </tr>
     <tr>
-      <td id="twit">Twitter</td>
-      <td id="jj">Живой Журнал</td>
-      <td id="back">На главную</td>
+      <td id="twit" role="button" tabindex="0" aria-label="Twitter" onmouseenter="speakText('Twitter')" onfocus="speakText('Twitter')" onclick="speakAndNavigateExternal('Переход на сайт Twitter', 'https://twitter.com/')">Twitter</td>
+      <td id="jj" role="button" tabindex="0" aria-label="Живой Журнал" onmouseenter="speakText('Живой Журнал')" onfocus="speakText('Живой Журнал')" onclick="speakAndNavigateExternal('Переход на сайт Живой Журнал', 'https://www.livejournal.com/')">Живой Журнал</td>
+      <td id="back" role="button" tabindex="0" aria-label="На главную" onmouseenter="speakText('На главную')" onfocus="speakText('На главную')" onclick="speakAndNavigate('Возврат на главную страницу', '/www')">На главную</td>
     </tr>
   </tbody>
 </table>
@@ -69,39 +69,65 @@
 </script>
 
 <script>
-var html = document.documentElement;
-vk.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://vk.com/";
-};
+// Функции для озвучивания и навигации
+var synth = window.speechSynthesis;
 
-ok.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://ok.ru/";
-};
+function speakText(text) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  synth.speak(utterance);
+}
 
-face.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://facebook.com/";
-};
+function speakAndNavigate(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      document.location.href = url;
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-twit.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://twitter.com/";
-};
+function speakAndNavigateExternal(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      window.open(url, '_blank');
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
 
-jj.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "https://www.livejournal.com/";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-back.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "/www";
-};
+// Озвучивание при загрузке страницы
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    speakText('Раздел социальные сети. Выберите нужную социальную сеть.');
+  }, 500);
+});
 </script>
 
 </html>

@@ -20,14 +20,14 @@
 <table id = "content" width="100%" height="92%">
 <tbody>
     <tr>
-      <td id="google">Google</td>
-      <td id="yandex">Яндекс</td>
-      <td id="mail">Mail</td>
+      <td id="google" role="button" tabindex="0" aria-label="Google" onmouseenter="speakText('Google')" onfocus="speakText('Google')" onclick="speakAndNavigateExternal('Переход на сайт Google', 'https://google.ru/')">Google</td>
+      <td id="yandex" role="button" tabindex="0" aria-label="Яндекс" onmouseenter="speakText('Яндекс')" onfocus="speakText('Яндекс')" onclick="speakAndNavigateExternal('Переход на сайт Яндекс', 'https://yandex.ru/')">Яндекс</td>
+      <td id="mail" role="button" tabindex="0" aria-label="Mail" onmouseenter="speakText('Mail')" onfocus="speakText('Mail')" onclick="speakAndNavigateExternal('Переход на сайт Mail', 'https://mail.ru/')">Mail</td>
     </tr>
     <tr>
-      <td id="rambler">Рамблер</td>
-      <td id="sput">Спутник</td>
-      <td id="back">На главную</td>
+      <td id="rambler" role="button" tabindex="0" aria-label="Рамблер" onmouseenter="speakText('Рамблер')" onfocus="speakText('Рамблер')" onclick="speakAndNavigateExternal('Переход на сайт Рамблер', 'https://rambler.ru/')">Рамблер</td>
+      <td id="sput" role="button" tabindex="0" aria-label="Спутник" onmouseenter="speakText('Спутник')" onfocus="speakText('Спутник')" onclick="speakAndNavigateExternal('Переход на сайт Спутник', 'https://sputnik.ru/')">Спутник</td>
+      <td id="back" role="button" tabindex="0" aria-label="На главную" onmouseenter="speakText('На главную')" onfocus="speakText('На главную')" onclick="speakAndNavigate('Возврат на главную страницу', '/www')">На главную</td>
     </tr>
   </tbody>
 </table>
