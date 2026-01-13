@@ -1,0 +1,48 @@
+body {
+  background-color: #000000;
+  margin: 0;
+  margin-top:0;
+}
+
+.black-y {
+  font-size: 1.8rem;
+  color: yellow;
+}
+
+.black-w {
+  font-size: 1.8rem;
+  color: white;
+}
+
+.white-b {
+  font-size: 1.8rem;
+  color: black;
+  background-color: #FFFFFF;
+}
+
+table {
+  border-collapse: collapse; /* ”бираем двойные линии между €чейками */
+  color: yellow;
+  margin: 0;
+  margin-top: 0;
+}
+
+td {
+  font-size: 1.8rem;
+  border: 1px solid yellow;
+  width: 30%;
+}
+
+th {
+  border: 1px solid yellow;
+}
+
+thead, table, tr, th, td {
+  text-align: center;
+}
+
+thead {
+  margin-top: 0;
+  margin: 0;
+}
+
