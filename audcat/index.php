@@ -21,19 +21,19 @@
 <table id = "content" width="100%" height="92%">
   <tbody>
       <tr>
-        <td id="themes" onmouseenter="log(event)" onmouseleave="log(event)">Тематические</td>
-        <td id="abook" >Аудиокниги</td>
-        <td id="site">Обычная версия</td>
+        <td id="themes" role="button" tabindex="0" aria-label="Тематические сайты" onmouseenter="speakText('Тематические сайты')" onfocus="speakText('Тематические сайты')" onclick="speakAndNavigate('Переход в раздел тематические сайты', 'category/themes.php')">Тематические</td>
+        <td id="abook" role="button" tabindex="0" aria-label="Аудиокниги" onmouseenter="speakText('Аудиокниги')" onfocus="speakText('Аудиокниги')" onclick="speakAndNavigate('Переход в раздел аудиокниги', 'category/abook.php')">Аудиокниги</td>
+        <td id="site" role="button" tabindex="0" aria-label="Обычная версия сайта" onmouseenter="speakText('Обычная версия сайта')" onfocus="speakText('Обычная версия сайта')" onclick="speakAndNavigate('Переход на обычную версию сайта', 'site')">Обычная версия</td>
       </tr>
       <tr>
-        <td id="soft">Программы</td>
-        <td id="dosug">Досуг</td>
-        <td id="post">Почта</td>
+        <td id="soft" role="button" tabindex="0" aria-label="Программы" onmouseenter="speakText('Программы')" onfocus="speakText('Программы')" onclick="speakAndNavigate('Переход в раздел программы', 'category/soft.php')">Программы</td>
+        <td id="dosug" role="button" tabindex="0" aria-label="Досуг" onmouseenter="speakText('Досуг')" onfocus="speakText('Досуг')" onclick="speakAndNavigate('Переход в раздел досуг', 'category/dosug.php')">Досуг</td>
+        <td id="post" role="button" tabindex="0" aria-label="Почта" onmouseenter="speakText('Почта')" onfocus="speakText('Почта')" onclick="speakAndNavigate('Переход в раздел почта', 'category/post.php')">Почта</td>
       </tr>
       <tr>
-        <td id="social">Социальные сети</td>
-        <td id="search">Поисковики</td>
-        <td id="about">О нас</td>
+        <td id="social" role="button" tabindex="0" aria-label="Социальные сети" onmouseenter="speakText('Социальные сети')" onfocus="speakText('Социальные сети')" onclick="speakAndNavigate('Переход в раздел социальные сети', 'category/social.php')">Социальные сети</td>
+        <td id="search" role="button" tabindex="0" aria-label="Поисковики" onmouseenter="speakText('Поисковики')" onfocus="speakText('Поисковики')" onclick="speakAndNavigate('Переход в раздел поисковики', 'category/search.php')">Поисковики</td>
+        <td id="about" role="button" tabindex="0" aria-label="О нас" onmouseenter="speakText('О нас')" onfocus="speakText('О нас')" onclick="speakAndNavigate('Переход в раздел о нас', 'category/about.php')">О нас</td>
       </tr>
   </tbody>
 </table>
@@ -43,15 +43,72 @@
 
 <script>
 var synth = window.speechSynthesis;
-var utterance = new SpeechSynthesisUtterance('Вы находитесь на главной странице сайта.');
+var currentUtterance = null;
 
-function log(event) {
-  synth.speak (utterance);
+// Функция для озвучивания текста
+function speakText(text) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  currentUtterance = utterance;
+  synth.speak(utterance);
 }
 
-function stop () {
-  synth.pause();
+// Функция для озвучивания и навигации
+function speakAndNavigate(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      document.location.href = url;
+    }, 300);
+  };
+  
+  synth.speak(utterance);
 }
+
+// Функция для озвучивания и перехода на внешний сайт
+function speakAndNavigateExternal(text, url) {
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = function() {
+    setTimeout(function() {
+      window.open(url, '_blank');
+    }, 300);
+  };
+  
+  synth.speak(utterance);
+}
+
+function stop() {
+  synth.cancel();
+}
+
+// Озвучивание при загрузке страницы
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    speakText('Вы находитесь на главной странице сайта AudCat. Используйте клавиши Tab для навигации или кликните на нужный раздел.');
+  }, 500);
+});
 </script>
 
 <script>
@@ -99,79 +156,7 @@ function stop () {
 </script>
 
 
-<script>
-var html = document.documentElement;
-soft.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/soft.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-search.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/search.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-abook.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/abook.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-post.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/post.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-social.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/social.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-themes.onclick = function() { 
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/themes.php";
-};
-
-
-</script>
-
-<script>
-var html = document.documentElement;
-dosug.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/dosug.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-about.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "category/about.php";
-};
-</script>
-
-<script>
-var html = document.documentElement;
-site.onclick = function() {
-  // при помощи JS увеличить размер шрифта html на 2px
-  document.location.href = "site";
-};
-</script>
+<!-- Обработчики onclick теперь встроены в элементы через атрибут onclick -->
 
 </body>
 
